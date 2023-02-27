@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.0.2",
+    "@tanstack/react-query": "^4.24.10",
+    "@trpc/client": "^10.13.0",
+    "@trpc/next": "^10.13.0",
+    "@trpc/react-query": "^10.13.0",
+    "@trpc/server": "^10.13.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
@@ -22,7 +27,7 @@
     "react-dom": "18.2.0",
     "tailwind-scrollbar": "^2.0.1",
     "typescript": "4.9.3",
-    "zod": "^3.19.1"
+    "zod": "^3.20.6"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
