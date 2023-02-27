@@ -1,60 +1,63 @@
-import { useState } from 'react'
-import { FeedbackTypeStep } from './Steps/FeedbackTypeStep'
+import { useState } from "react";
 import {
   FeedbackContentStep,
   FeedbackFormSchema,
-} from './Steps/FeedbackContentStep'
-import { FeedbackSuccessStep } from './Steps/FeedbackSuccessStep'
+} from "./Steps/FeedbackContentStep";
+import { FeedbackSuccessStep } from "./Steps/FeedbackSuccessStep";
+import { FeedbackTypeStep } from "./Steps/FeedbackTypeStep";
 
-import bugImageUrl from '../../assets/bug.svg'
-import ideaImageUrl from '../../assets/idea.svg'
-import thoughtImageUrl from '../../assets/thought.svg'
+import bugImageUrl from "../../assets/bug.svg";
+import ideaImageUrl from "../../assets/idea.svg";
+import thoughtImageUrl from "../../assets/thought.svg";
+import { trpc } from "../../utils/trpc";
 
 export const feedbackTypes = {
   BUG: {
-    title: 'Problema',
+    title: "Problema",
     image: {
       source: bugImageUrl,
-      alt: 'Ilustração de um inseto roxo',
+      alt: "Ilustração de um inseto roxo",
     },
   },
   IDEA: {
-    title: 'Ideia',
+    title: "Ideia",
     image: {
       source: ideaImageUrl,
-      alt: 'Lâmpada acesa',
+      alt: "Lâmpada acesa",
     },
   },
   OTHER: {
-    title: 'Outro',
+    title: "Outro",
     image: {
       source: thoughtImageUrl,
-      alt: 'Núvem de pensamento',
+      alt: "Núvem de pensamento",
     },
   },
-} as const
+} as const;
 
-export type FeedbackType = keyof typeof feedbackTypes
+export type FeedbackType = keyof typeof feedbackTypes;
 
 export function WidgetForm() {
-  const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null)
-  const [feedbackSent, setFeedbackSent] = useState(false)
+  const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null);
+  const [feedbackSent, setFeedbackSent] = useState(false);
+
+  const { mutateAsync: createFeedback } = trpc.createFeedback.useMutation();
 
   function handleRestartFeedback() {
-    setFeedbackSent(false)
-    setFeedbackType(null)
+    setFeedbackSent(false);
+    setFeedbackType(null);
   }
 
   async function handleFeedbackSubmitted(data: FeedbackFormSchema) {
     try {
-      const { type, comment } = data
+      const { type, comment } = data;
 
-      console.log({ type, comment })
+      await createFeedback({ type, content: comment });
     } catch (err) {
-      alert('Erro ao enviar o feedback, tente novamente!')
+      alert("Erro ao enviar o feedback, tente novamente!");
     }
 
-    setFeedbackSent(true)
+    setFeedbackSent(true);
   }
 
   return (
@@ -77,7 +80,7 @@ export function WidgetForm() {
         </>
       )}
       <footer className="text-xs text-neutral-400">
-        Feito com ♥ pela{' '}
+        Feito com ♥ pela{" "}
         <a
           href="https://rocketseat.com.br"
           className="underline underline-offset-2"
@@ -86,5 +89,5 @@ export function WidgetForm() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
